@@ -1,0 +1,97 @@
+<template>
+  <div class="navbar">
+    <v-app-bar color="FAFAFA" flat height="120">
+      <v-row justify="center">
+        <v-col md="3">
+          <div>
+            <v-img
+              src="../assets/kapalasar-1024x250.png"
+              max-width="180"
+              class="mx-auto"
+            ></v-img>
+          </div>
+        </v-col>
+        <v-col md="6">
+          <v-text-field
+            solo
+            label="Search"
+            hide-details="auto"
+            max-width="570"
+            append-icon="mdi-card-search"
+            ma-1
+          >
+          </v-text-field>
+        </v-col>
+        <v-col md="3">
+          <div v-if="isLoggedin">
+            <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-card
+                  max-width="210"
+                  class="mx-auto"
+                  color="#A6CB26"
+                  v-bind="attrs"
+                  v-on="on"
+                  dark
+                  @click="showMenu = !showMenu"
+                >
+                  <v-list-item-avatar
+                    tile
+                    size="35"
+                    color="grey"
+                    class="mx-2"
+                  ></v-list-item-avatar>
+                  <v-card-subtitle class="d-inline px-1" dark>{{
+                    nama
+                  }}</v-card-subtitle>
+                  <v-card-actions class="d-inline pa-0">
+                    <v-btn icon small>
+                      <v-icon>{{
+                        showMenu ? "mdi-chevron-up" : "mdi-chevron-down"
+                      }}</v-icon>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+              <v-list>
+                <v-list-item v-for="(item, index) in items" :key="index">
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </div>
+          <div v-else class="button text-center ma-1">
+            <v-btn class="mr-2" outlined color="#A6CB26" large pa-1
+              >Masuk</v-btn
+            >
+            <v-btn color="#A6CB26" dark depressed large pa-1>Daftar</v-btn>
+          </div>
+        </v-col>
+      </v-row>
+    </v-app-bar>
+  </div>
+</template>
+
+<script>
+export default {
+  data: () => ({
+    isLoggedin: true,
+    showMenu: false,
+    nama: "Naufal Bimantara",
+    items: [
+      { icon: "mdi-account", title: "Profile" },
+      { icon: "mdi-history", title: "Riwayat Transaksi" },
+      { icon: "mdi-logout", title: "Keluar" }
+    ]
+  })
+};
+</script>
+
+<style>
+.mdi-card-search::before {
+  color: #a6cb26;
+}
+</style>

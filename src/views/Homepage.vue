@@ -1,17 +1,232 @@
 <template>
   <div class="home">
-    <Navbar />
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <navbar />
+    <!-- Carousel -->
+    <div class="carousel d-flex justify-center align-center">
+      <splide :options="optionsCarousel">
+        <splide-slide v-for="(slide, i) in slides" :key="i">
+          <div class="rounded">
+            <v-img class="responsive" :src="slide.src" />
+          </div>
+        </splide-slide>
+      </splide>
+    </div>
+    <!-- Flash Sale -->
+    <div class="flashSale">
+      <v-container>
+        <div class="d-flex align-center mb-4">
+          <v-img
+            src="../assets/flashsale.svg"
+            height="40"
+            width="40"
+            class="flex-shrink-0 flex-grow-0"
+          ></v-img>
+          <span class="white--text ml-4 text-h5">Flash Sale</span>
+        </div>
+        <div class="d-flex justify-center align-center">
+          <splide :options="optionsFlashsale">
+            <splide-slide v-for="(product, i) in flashSaleProducts" :key="i">
+              <product-card @getTotalPrice="getTotalPrice" :product="product" />
+            </splide-slide>
+          </splide>
+        </div>
+      </v-container>
+    </div>
+    <!-- Filter -->
+    <div>
+      <v-container>
+        <div>
+          <span class="text-h6">Filter</span>
+        </div>
+        <div class="d-flex flex-wrap justify-center">
+          <v-btn
+            v-for="(filter, i) in filters"
+            :key="i"
+            x-large
+            :large="$vuetify.breakpoint.xs ? true : false"
+            class="mr-2 px-1 my-2"
+            @click="filterByKategori(filter.name)"
+            :color="filter.name == current ? '#a6cb26' : ''"
+          >
+            <v-img :src="filter.src"></v-img>
+            <span class="mx-2">{{ filter.name }}</span>
+          </v-btn>
+        </div>
+      </v-container>
+    </div>
+    <!-- Product -->
+    <v-container>
+      <v-row justify="center">
+        <v-col
+          cols="6"
+          md="2"
+          v-for="(product, i) in filteredProducts"
+          :key="i"
+          class="ma-md-2 my-2"
+        >
+          <v-row justify="center">
+            <product-card @getTotalPrice="getTotalPrice" :product="product" />
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
+    <Footer />
+    <div v-if="showCart" class="cart">
+      <v-container>
+        <v-row class="pa-3">
+          <div>
+            <div class="font-weight-medium">Total Harga</div>
+            <div class="totalHarga font-weight-medium text-h5 align-center">
+              {{ parseRupiah(totalPrice) }}
+            </div>
+          </div>
+          <v-spacer></v-spacer>
+          <div class="d-flex align-center">
+            <v-btn to="/checkout" class="checkout" color="#A6CB26"
+              >Checkout</v-btn
+            >
+          </div>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import "@splidejs/splide/dist/css/themes/splide-default.min.css";
+import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import Navbar from "../components/Navbar.vue";
+import ProductCard from "../components/ProductCard.vue";
+import Footer from "../components/Footer.vue";
+import { products, filters, slides } from "../dummyData/dummy.js";
+
 export default {
   name: "Home",
   components: {
-    Navbar
+    Navbar,
+    Splide,
+    SplideSlide,
+    ProductCard,
+    Footer
+  },
+  data() {
+    return {
+      optionsCarousel: {
+        type: "slide",
+        rewind: true,
+        width: "100%",
+        fixedHeight: this.$vuetify.breakpoint.xs ? 200 : 300,
+        perPage: 1,
+        gap: "1rem",
+        autoplay: true,
+        padding: {
+          right: this.$vuetify.breakpoint.xs ? "" : "20rem",
+          left: this.$vuetify.breakpoint.xs ? "" : "20rem"
+        },
+        cover: true,
+        start: 2,
+        heightRatio: 0.3
+      },
+      optionsFlashsale: {
+        width: "90%",
+        gap: "1rem",
+        height: 300,
+        perPage: this.$vuetify.breakpoint.xs ? 1 : 4,
+        perMove: 1,
+        pagination: false,
+        autoWidth: true,
+        heightRatio: 0.3
+      },
+      slides,
+      filters,
+      products,
+      totalPrice: 0,
+      showCart: false,
+      notFlashsaleProducts: [],
+      flashSaleProducts: [],
+      filteredProducts: [],
+      current: "semua"
+    };
+  },
+  methods: {
+    parseRupiah(strMoney) {
+      return parseInt(strMoney).toLocaleString("id", {
+        style: "currency",
+        currency: "IDR"
+      });
+    },
+    getTotalPrice(totalHarga) {
+      this.totalPrice = totalHarga;
+      if (this.totalPrice !== 0) {
+        this.showCart = true;
+      } else {
+        this.showCart = false;
+      }
+    },
+    filterFlashSale() {
+      this.flashSaleProducts = products.filter(product => product.flashSale);
+    },
+    filterNotFlashSale() {
+      this.notFlashsaleProducts = products.filter(
+        product => !product.flashSale
+      );
+      this.filteredProducts = this.notFlashsaleProducts;
+    },
+    filterByKategori(by) {
+      this.current = by;
+      if (this.current === "sayur") {
+        this.filteredProducts = this.notFlashsaleProducts.filter(
+          product => product.kategori === "sayuran"
+        );
+      } else if (this.current === "buah") {
+        this.filteredProducts = this.notFlashsaleProducts.filter(
+          product => product.kategori === "buah"
+        );
+      } else if (this.current === "daging") {
+        this.filteredProducts = this.notFlashsaleProducts.filter(
+          product => product.kategori === "daging"
+        );
+      } else if (this.current === "bumbu") {
+        this.filteredProducts = this.notFlashsaleProducts.filter(
+          product => product.kategori === "bumbu"
+        );
+      } else {
+        this.filteredProducts = this.notFlashsaleProducts;
+      }
+    }
+  },
+  created() {
+    this.filterFlashSale();
+    this.filterNotFlashSale();
   }
 };
 </script>
+
+<style scoped>
+.carousel {
+  background: #a6cb26;
+  padding: 1.25rem 0;
+}
+.flashSale {
+  margin-top: 0.625rem;
+  padding: 0.625rem 0;
+  background: #f99f39;
+}
+.totalHarga {
+  color: #f99f39;
+}
+.checkout {
+  color: white;
+}
+.cart {
+  background-color: white;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+</style>

@@ -11,16 +11,21 @@
             ></v-img>
           </div>
         </v-col>
-        <v-col md="6">
-          <v-text-field
-            solo
-            label="Search"
-            hide-details="auto"
-            max-width="570"
-            append-icon="mdi-card-search"
-            ma-1
-          >
-          </v-text-field>
+        <v-col md="6" class="text-center">
+          <div class="align-center">
+            <v-text-field
+              outlined
+              label="Search"
+              single-line
+              dense
+              color="#a6cb26"
+              hide-details="auto"
+              max-width="570"
+              append-icon="mdi-card-search"
+              ma-1
+            >
+            </v-text-field>
+          </div>
         </v-col>
         <v-col md="3">
           <div v-if="isLoggedin">
@@ -44,7 +49,7 @@
                   <v-card-subtitle class="d-inline px-1" dark>{{
                     nama
                   }}</v-card-subtitle>
-                  <v-card-actions class="d-inline pa-0">
+                  <v-card-actions class="d-inline pa-1">
                     <v-btn icon small>
                       <v-icon>{{
                         showMenu ? "mdi-chevron-up" : "mdi-chevron-down"
@@ -54,20 +59,18 @@
                 </v-card>
               </template>
               <v-list>
-                <v-list-item v-for="(item, index) in items" :key="index">
+                <v-list-item v-for="menu in menus" :key="menu.title">
                   <v-list-item-icon>
-                    <v-icon>{{ item.icon }}</v-icon>
+                    <v-icon>{{ menu.icon }}</v-icon>
                   </v-list-item-icon>
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  <v-list-item-title>{{ menu.title }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
           </div>
           <div v-else class="button text-center ma-1">
-            <v-btn class="mr-2" outlined color="#A6CB26" large pa-1
-              >Masuk</v-btn
-            >
-            <v-btn color="#A6CB26" dark depressed large pa-1>Daftar</v-btn>
+            <v-btn class="mr-2" outlined color="#A6CB26" pa-1>Masuk</v-btn>
+            <v-btn color="#A6CB26" dark depressed pa-1>Daftar</v-btn>
           </div>
         </v-col>
       </v-row>
@@ -77,16 +80,18 @@
 
 <script>
 export default {
-  data: () => ({
-    isLoggedin: true,
-    showMenu: false,
-    nama: "Naufal Bimantara",
-    items: [
-      { icon: "mdi-account", title: "Profile" },
-      { icon: "mdi-history", title: "Riwayat Transaksi" },
-      { icon: "mdi-logout", title: "Keluar" }
-    ]
-  })
+  data() {
+    return {
+      isLoggedin: false,
+      showMenu: false,
+      nama: "Naufal Bimantara",
+      menus: [
+        { icon: "mdi-account", title: "Profile" },
+        { icon: "mdi-history", title: "Riwayat Transaksi" },
+        { icon: "mdi-logout", title: "Keluar" }
+      ]
+    };
+  }
 };
 </script>
 

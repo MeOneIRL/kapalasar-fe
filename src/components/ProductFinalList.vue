@@ -6,10 +6,13 @@
           <v-img height="80" max-width="120" :src="listFinalCart.image"></v-img>
         </div>
         <div>
-          <v-card-title class="font-weight-medium text-subtitle-1">
+          <v-card-title class="font-weight-medium text-subtitle-1 pt-0">
             {{ listFinalCart.productName }}
           </v-card-title>
-          <v-card-subtitle class="text-subtitle-2">
+          <v-card-subtitle class="text-subtitle-2 py-0">
+            {{ listFinalCart.description }}
+          </v-card-subtitle>
+          <v-card-subtitle class="text-subtitle-2 py-0">
             {{ parseRupiah(listFinalCart.hargaBaru) }}
           </v-card-subtitle>
         </div>

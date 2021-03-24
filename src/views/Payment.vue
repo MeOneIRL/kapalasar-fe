@@ -156,7 +156,7 @@
           </v-container>
         </v-alert>
         <div class="text-center">
-          <v-btn @click="addBuyersInfo" color="#a6cb26" dark to="/payment">
+          <v-btn color="#a6cb26" dark to="/payment">
             Selesai
           </v-btn>
         </div>
@@ -199,6 +199,8 @@ export default {
     },
     getProductList() {
       const state = this.$store.state.cart.listCarts;
+      const tempState = this.$store.state.cart.tempCart;
+
       products.forEach(product => {
         state.forEach(item => {
           if (item.id == product.id) {
@@ -206,11 +208,16 @@ export default {
               qty: item.qty,
               ...product
             };
-            this.listFinalCart.push(cart);
+
+            // this.listFinalCart.push(cart);
+            tempState.forEach(item => {
+              if (item == cart.id) {
+                this.listFinalCart.push(cart);
+              }
+            });
           }
         });
       });
-      console.log(this.listFinalCart);
     },
     getTotalPrice() {
       this.totalPrice = this.$store.state.cart.totalPrice;

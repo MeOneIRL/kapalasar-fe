@@ -195,3 +195,16 @@ export const slides = [
   { src: "https://picsum.photos/800/800" },
   { src: "https://picsum.photos/800/800" }
 ];
+
+export const vouchers = [
+  { name: "voucher123", discount: 2000 },
+  { name: "voucher234", discount: 1000 }
+];
+
+export const user = {
+  name: "Naufal Bimantara",
+  email: "naufalbimantara@gmail.com",
+  telepon: "081238562856",
+  alamat: "jl. sayang no. 10",
+  password: "pass1234"
+};

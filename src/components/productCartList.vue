@@ -1,34 +1,26 @@
 <template>
   <div>
     <v-card elevation="0">
-      <v-row class="mx-1 mt-3">
-        <v-checkbox
-          v-model="checkedVal"
-          color="#a6cb26"
-          :true-value="listCart.id"
-          :value="listCart.id"
-          :false-value="`false:${listCart.id}`"
-          @change="getCheckedValue($event, listCart.hargaBaru)"
-        ></v-checkbox>
+      <v-row class="mt-3">
         <div>
-          <v-card-title class="title font-weight-medium text-subtitle-1">
+          <v-card-title class="title font-weight-medium text-subtitle-1 pa-1">
             {{ listCart.productName }}
           </v-card-title>
-          <v-card-subtitle class="black--text text-subtitle-2">
+          <v-card-subtitle class="black--text text-subtitle-2 py-2 px-1">
             {{ parseRupiah(listCart.hargaBaru) }}
           </v-card-subtitle>
         </div>
         <v-spacer></v-spacer>
-        <div class="d-flex justify-center text-center align-center">
+        <div class="d-flex justify-center text-center align-center mr-3">
           <v-btn
             elevation="0"
             fab
             x-small
-            dark
             color="#A6CB26"
+            :disabled="disabledMin"
             @click="minQty(listCart.id, listCart.hargaBaru)"
           >
-            <v-icon>mdi-minus</v-icon>
+            <v-icon color="white">mdi-minus</v-icon>
           </v-btn>
           <div class="itemQty d-flex justify-center align-center">
             {{ getQtyById(listCart.id) }}
@@ -37,11 +29,11 @@
             elevation="0"
             fab
             x-small
-            dark
             color="#A6CB26"
+            :disabled="disabledPlus"
             @click="addQty(listCart.id, 10, listCart.hargaBaru)"
           >
-            <v-icon>mdi-plus</v-icon>
+            <v-icon color="white">mdi-plus</v-icon>
           </v-btn>
         </div>
       </v-row>
@@ -54,7 +46,9 @@ export default {
   props: ["listCart"],
   data() {
     return {
-      checkedVal: ""
+      checkedVal: "",
+      disabledMin: false,
+      disablePlus: false
     };
   },
   methods: {
@@ -72,6 +66,9 @@ export default {
           if (item.qty < stock) {
             const newQty = item.qty + 1;
             this.$set(item, "qty", newQty);
+            this.disabledMin = false;
+          } else {
+            this.DisablePlus = true;
           }
         }
       });
@@ -86,9 +83,8 @@ export default {
             const newQty = item.qty - 1;
             this.$set(item, "qty", newQty);
           } else {
-            this.$set(item, "qty", 0);
-
-            this.isBtnBeliClicked = false;
+            // this.$set(item, "qty", 0);
+            this.disabledMin = true;
           }
         }
       });
@@ -114,10 +110,12 @@ export default {
         totalPrice += item.qty * harga;
       });
 
-      this.$store.commit("cart/SET_TOTAL_PRICE", totalPrice);
+      const voucher = this.$store.state.voucher.voucher;
+      if (Object.keys(voucher).length) {
+        totalPrice -= voucher.disc;
+      }
 
-      // console.log(`@price-itemQty: ${JSON.stringify(state)}`);
-      // console.log(`total: ${totalPrice}`);
+      this.$store.commit("cart/SET_TOTAL_PRICE", totalPrice);
 
       this.$emit("getTotalPrice", this.$store.state.cart.totalPrice);
     },
@@ -127,53 +125,6 @@ export default {
         return item.id == idx;
       });
       if (item) return item.qty;
-    },
-    getCheckedValue(val, harga) {
-      const isUnChecked = this.checkedVal.toString().includes(":");
-
-      if (!isUnChecked) {
-        const found = this.$store.state.cart.tempCart.find(item => {
-          val == item;
-        });
-        if (!found) {
-          this.$store.commit("cart/ADD_TEMP", val);
-        }
-      } else {
-        const id = this.checkedVal.toString().split(":")[1];
-
-        const newCart = this.$store.state.cart.tempCart.filter(item => {
-          return item != id;
-        });
-
-        this.$store.commit("cart/REPLACE_TEMP", newCart);
-      }
-      // const state = this.$store.state.cart.tempCart;
-      // console.log(`state: ${state}`);
-      this.changeListCartState(harga);
-    },
-    changeListCartState(harga) {
-      const temp = this.$store.state.cart.tempCart;
-      // let tempListCart = [];
-
-      // if (!temp.length) {
-      const state = this.$store.state.cart.listCarts;
-      const tempListCart = state.filter(item => {
-        return temp.includes(item.id);
-      });
-      // console.log(tempListCart);
-      // }
-
-      let totalPrice = 0;
-
-      tempListCart.forEach(item => {
-        totalPrice += item.qty * harga;
-      });
-
-      console.log(totalPrice);
-
-      this.$store.commit("cart/SET_TOTAL_PRICE", totalPrice);
-
-      this.$emit("getTotalPrice", this.$store.state.cart.totalPrice);
     }
   }
 };

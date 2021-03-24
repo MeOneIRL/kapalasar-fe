@@ -2,13 +2,15 @@
   <div class="navbar">
     <v-app-bar color="FAFAFA" flat height="120">
       <v-row justify="center">
-        <v-col md="3">
+        <v-col md="3" to="/">
           <div>
-            <v-img
-              src="../assets/kapalasar-1024x250.png"
-              max-width="180"
-              class="mx-auto"
-            ></v-img>
+            <router-link to="/">
+              <v-img
+                src="../assets/kapalasar-1024x250.png"
+                max-width="180"
+                class="mx-auto"
+              ></v-img>
+            </router-link>
           </div>
         </v-col>
         <v-col md="6" class="text-center">

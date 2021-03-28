@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Homepage from "../views/Homepage.vue";
 import Checkout from "../views/Checkout.vue";
 import Payment from "../views/Payment.vue";
+import Signin from "../views/Signin.vue";
+import Signup from "../views/Signup.vue";
 
 Vue.use(VueRouter);
 
@@ -11,6 +13,16 @@ const routes = [
     path: "/",
     name: "Homepage",
     component: Homepage
+  },
+  {
+    path: "/signin",
+    name: "Signin",
+    component: Signin
+  },
+  {
+    path: "/signup",
+    name: "Signup",
+    component: Signup
   },
   {
     path: "/checkout",

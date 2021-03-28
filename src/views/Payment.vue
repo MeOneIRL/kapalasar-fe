@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <!-- Alur Pembayaran -->
     <div>
       <v-container>
         <v-card color="#a6cb26">
@@ -136,6 +137,7 @@
             </div>
           </v-container>
         </v-alert>
+        <!-- Final Cart List -->
         <v-alert
           class="my-5"
           border="top"

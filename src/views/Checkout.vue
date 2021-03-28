@@ -10,6 +10,7 @@
             >
           </v-container>
         </v-card>
+        <!-- Form Data User -->
         <v-alert
           class="my-5"
           border="top"
@@ -60,6 +61,7 @@
             </div>
           </v-container>
         </v-alert>
+        <!-- Data User (Logged In) -->
         <v-alert
           class="my-5"
           border="top"
@@ -107,6 +109,7 @@
             </div>
           </v-container>
         </v-alert>
+        <!-- Voucher -->
         <v-alert
           class="my-5"
           border="top"
@@ -169,6 +172,7 @@
             </v-row>
           </v-container>
         </v-alert>
+        <!-- List Cart -->
         <v-alert
           class="my-5"
           border="top"

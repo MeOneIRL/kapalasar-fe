@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <v-app-bar color="FAFAFA" flat height="120">
+    <v-app-bar color="FAFAFA" flat max-height="120" height="100">
       <v-row justify="center">
         <v-col md="3" to="/">
           <div>
@@ -13,7 +13,7 @@
             </router-link>
           </div>
         </v-col>
-        <v-col md="6" class="text-center">
+        <v-col md="6" class="text-center" v-if="$route.name == 'Homepage'">
           <div class="align-center">
             <v-text-field
               outlined
@@ -29,6 +29,7 @@
             </v-text-field>
           </div>
         </v-col>
+        <v-col md="6" v-else></v-col>
         <v-col md="3">
           <div v-if="isLoggedin">
             <v-menu offset-y>

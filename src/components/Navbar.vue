@@ -41,7 +41,6 @@
                   v-bind="attrs"
                   v-on="on"
                   dark
-                  @click="showMenu = !showMenu"
                 >
                   <v-list-item-avatar
                     tile
@@ -54,15 +53,20 @@
                   }}</v-card-subtitle>
                   <v-card-actions class="d-inline pa-1">
                     <v-btn icon small>
-                      <v-icon>{{
-                        showMenu ? "mdi-chevron-up" : "mdi-chevron-down"
-                      }}</v-icon>
+                      <v-icon>
+                        mdi-chevron-down
+                      </v-icon>
                     </v-btn>
                   </v-card-actions>
                 </v-card>
               </template>
               <v-list>
-                <v-list-item v-for="menu in menus" :key="menu.title">
+                <v-list-item
+                  v-for="menu in menus"
+                  :key="menu.title"
+                  link
+                  :to="menu.router"
+                >
                   <v-list-item-icon>
                     <v-icon>{{ menu.icon }}</v-icon>
                   </v-list-item-icon>
@@ -72,8 +76,12 @@
             </v-menu>
           </div>
           <div v-else class="button text-center ma-1">
-            <v-btn class="mr-2" outlined color="#A6CB26" pa-1>Masuk</v-btn>
-            <v-btn color="#A6CB26" dark depressed pa-1>Daftar</v-btn>
+            <v-btn class="mr-2" outlined color="#A6CB26" pa-1 to="Signin"
+              >Masuk</v-btn
+            >
+            <v-btn color="#A6CB26" dark depressed pa-1 to="Signup"
+              >Daftar</v-btn
+            >
           </div>
         </v-col>
       </v-row>
@@ -85,12 +93,10 @@
 export default {
   data() {
     return {
-      isLoggedin: false,
-      showMenu: false,
+      isLoggedin: true,
       nama: "Naufal Bimantara",
       menus: [
-        { icon: "mdi-account", title: "Profile" },
-        { icon: "mdi-history", title: "Riwayat Transaksi" },
+        { icon: "mdi-account", title: "Account", router: "Account" },
         { icon: "mdi-logout", title: "Keluar" }
       ]
     };

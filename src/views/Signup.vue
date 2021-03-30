@@ -4,7 +4,7 @@
     <div class="my-3">
       <v-container>
         <v-card>
-          <v-img src="../assets/pasar.svg" max-height="800" width="100%">
+          <v-img src="../assets/pasar.svg" height="100%" width="100%">
             <v-container fluid class="fill-height pa-0">
               <v-row class="fill-height">
                 <v-col cols="5" class="bg-msg d-none d-md-block">
@@ -146,9 +146,15 @@
                             ></v-text-field>
                           </div>
                           <div class="pb-3 text-center">
-                            <v-btn color="#a6cb26" dark>Masuk</v-btn>
+                            <v-btn color="#a6cb26" dark>Daftar</v-btn>
                           </div>
                         </v-form>
+                        <div class="">
+                          Punya akun?
+                          <router-link to="Signin">
+                            <span class="label font-weight-medium">Masuk</span>
+                          </router-link>
+                        </div>
                       </div>
                     </div>
                   </v-container>
@@ -172,7 +178,14 @@ export default {
   data() {
     return {
       show: false,
+      name: "",
       email: "",
+      telepon: "",
+      usia: "",
+      pekerjaan: "",
+      alamat: "",
+      kelurahan: "",
+      kecamatan: "",
       password: "",
       rules: {
         required: value => !!value || "Harus diisi",

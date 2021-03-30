@@ -43,10 +43,11 @@
             v-for="(filter, i) in filters"
             :key="i"
             x-large
-            :large="$vuetify.breakpoint.xs ? true : false"
+            :large="$vuetify.breakpoint.sm ? true : false"
             class="mr-2 px-1 my-2"
             @click="filterByKategori(filter.name)"
             :color="filter.name == current ? '#a6cb26' : ''"
+            :dark="filter.name == current ? true : false"
           >
             <v-img :src="filter.src"></v-img>
             <span class="mx-2">{{ filter.name }}</span>
@@ -156,6 +157,15 @@ export default {
         currency: "IDR"
       });
     },
+    changeShowCart() {
+      const price = this.$store.state.cart.totalPrice;
+      if (price != 0) {
+        this.totalPrice = price;
+        this.showCart = true;
+      } else {
+        this.showCart = false;
+      }
+    },
     getTotalPrice(totalHarga) {
       this.totalPrice = totalHarga;
       if (this.totalPrice !== 0) {
@@ -191,6 +201,10 @@ export default {
         this.filteredProducts = this.notFlashsaleProducts.filter(
           product => product.kategori === "bumbu"
         );
+      } else if (this.current === "promo") {
+        this.filteredProducts = this.notFlashsaleProducts.filter(
+          product => product.hargaCoret
+        );
       } else {
         this.filteredProducts = this.notFlashsaleProducts;
       }
@@ -199,6 +213,9 @@ export default {
   created() {
     this.filterFlashSale();
     this.filterNotFlashSale();
+  },
+  mounted() {
+    this.changeShowCart();
   }
 };
 </script>

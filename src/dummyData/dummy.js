@@ -186,7 +186,8 @@ export const filters = [
   { src: require("../assets/Buah.png"), name: "buah" },
   { src: require("../assets/Daging.png"), name: "daging" },
   { src: require("../assets/Sayur.png"), name: "sayur" },
-  { src: require("../assets/Bumbu.png"), name: "bumbu" }
+  { src: require("../assets/Bumbu.png"), name: "bumbu" },
+  { src: require("../assets/promo.png"), name: "promo" }
 ];
 
 export const slides = [

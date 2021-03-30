@@ -223,7 +223,6 @@ export default {
                 qty: cart.qty,
                 ...product
               };
-              console.log(list);
               dataProduct.push(list);
             }
           });
@@ -233,7 +232,6 @@ export default {
         dataProduct,
         totalPrice: totalPrice
       });
-      console.log(this.dataTransaction);
     }
   },
   mounted() {

@@ -30,7 +30,7 @@
                 <div>
                   <span class="label font-weight-bold">Nama</span>
                   <v-text-field
-                    placeholder="Naufal Bimantara"
+                    placeholder="Masukan Nama Anda"
                     single-line
                     outlined
                     dense
@@ -40,7 +40,7 @@
                 <div>
                   <span class="label font-weight-bold">Nomor Telepon</span>
                   <v-text-field
-                    placeholder="081224327653"
+                    placeholder="Masukan Nomor Telepon Anda"
                     outlined
                     single-line
                     dense
@@ -50,7 +50,7 @@
                 <div>
                   <span class="label font-weight-bold">Alamat Pengiriman</span>
                   <v-textarea
-                    placeholder="Jalan Ibrahim Adjie No.103"
+                    placeholder="Masukan Alamat Anda"
                     outlined
                     rows="2"
                     auto-grow
@@ -272,7 +272,7 @@ export default {
       products,
       vouchers,
       user,
-      isLoggedin: false,
+      isLoggedin: true,
       voucher: "",
       voucherInUse: {},
       nama: "",
@@ -315,15 +315,27 @@ export default {
       window.scrollTo(0, 0);
     },
     addBuyerInfo() {
-      const data = {
-        nama: this.nama,
-        telepon: this.telepon,
-        alamat: this.alamat
-      };
-      this.$store.commit("user/ADD", data);
-      console.log(this.$store.state.user.userInfo);
+      if (!this.isLoggedin) {
+        const data = {
+          nama: this.nama,
+          telepon: this.telepon,
+          alamat: this.alamat
+        };
+        this.$store.commit("user/ADD", data);
+        console.log(this.$store.state.user.userInfo);
 
-      this.$router.push("/payment");
+        this.$router.push("/payment");
+      } else {
+        const data = {
+          nama: user.name,
+          telepon: user.telepon,
+          alamat: user.alamat
+        };
+        this.$store.commit("user/ADD", data);
+        console.log(this.$store.state.user.userInfo);
+
+        this.$router.push("/payment");
+      }
     },
     getProductList() {
       const state = this.$store.state.cart.listCarts;

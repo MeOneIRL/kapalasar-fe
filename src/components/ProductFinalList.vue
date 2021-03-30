@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card elevation="0">
+    <v-card elevation="0" tile>
       <v-row class="mx-1 mt-5">
         <div>
           <v-img height="80" max-width="120" :src="listFinalCart.image"></v-img>

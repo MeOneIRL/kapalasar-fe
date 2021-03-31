@@ -56,21 +56,28 @@
       </v-container>
     </div>
     <!-- Product -->
-    <v-container>
-      <v-row justify="center">
-        <v-col
-          cols="6"
-          md="2"
-          v-for="(product, i) in filteredProducts"
-          :key="i"
-          class="ma-md-2 my-2"
-        >
-          <v-row justify="center">
-            <product-card @getTotalPrice="getTotalPrice" :product="product" />
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-lazy>
+      <v-container>
+        <v-row justify="center">
+          <v-col
+            cols="6"
+            md="2"
+            v-for="(product, i) in filteredProducts"
+            :key="i"
+            class="ma-md-2 my-2"
+          >
+            <v-row justify="center">
+              <product-card @getTotalPrice="getTotalPrice" :product="product" />
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-lazy>
+    <!-- Compliance Cookie GDPR edited by Fauzi -->
+    <client-only>
+    <cookie/>
+    </client-only>
+    <!-- End of Compliance Cookie GDPR edited by Fauzi -->
     <Footer />
     <div v-if="showCart" class="cart">
       <v-container>
@@ -101,7 +108,7 @@ import Navbar from "../components/Navbar.vue";
 import ProductCard from "../components/ProductCard.vue";
 import Footer from "../components/Footer.vue";
 import { products, filters, slides } from "../dummyData/dummy.js";
-
+import cookie from "../components/cookie";
 export default {
   name: "Home",
   components: {
@@ -109,7 +116,8 @@ export default {
     Splide,
     SplideSlide,
     ProductCard,
-    Footer
+    Footer,
+    cookie
   },
   data() {
     return {

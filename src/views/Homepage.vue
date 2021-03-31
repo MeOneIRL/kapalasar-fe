@@ -127,6 +127,7 @@ export default {
         },
         cover: true,
         start: 2,
+        autoWidth: true,
         heightRatio: 0.3
       },
       optionsFlashsale: {
